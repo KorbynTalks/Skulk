@@ -1,16 +1,12 @@
 package me.korbyntalks.skulk.mixin;
 
 import me.korbyntalks.skulk.Skulk;
-import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.sound.SoundEngine;
-import net.minecraft.client.sound.Sounds;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import paulscode.sound.SoundSystem;
 
 @Mixin(SoundEngine.class)
 public abstract class SkulkMixin_SoundManager {
