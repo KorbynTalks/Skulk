@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "skulk",
+  "version": "${version}",
+  "name": "Skulk",
+  "description": "An All-in-one Mod for Indev 20100223 that fixes all kinds of bugs and annoyances.",
+  "authors": [
+    "KorbynTalks"
+  ],
+  "contact": {
+    "homepage": "https://korbyntalks.github.io/",
+    "sources": "https://github.com/OrnitheMC/ornithe-template-mod"
+  },
+  "entrypoints": {
+    "main": [
+      "me.korbyntalks.skulk.Skulk"
+    ]
+  },
+  "mixins": [
+    "skulk.mixins.json"
+  ],
+  "license": "None.",
+  "environment": "*",
+  "depends": {
+    "fabricloader": ">=0.17.3",
+    "minecraft": "0.31.20100223"
+  }
+}

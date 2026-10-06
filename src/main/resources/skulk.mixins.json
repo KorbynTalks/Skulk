@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "me.korbyntalks.skulk.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "SkulkMixin_SoundManager"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
