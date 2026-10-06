@@ -8,7 +8,7 @@ loom {
 
     runs {
         client {
-            vmArgs("-Dhttp.proxyHost=betacraft.ee -Dhttp.proxyPort=11702 -Djava.util.Arrays.useLegacyMergeSort=true")
+            vmArgs("-Dhttp.proxyHost=betacraft.ee", "-Dhttp.proxyPort=11702", "-Djava.util.Arrays.useLegacyMergeSort=true")
         }
     }
 

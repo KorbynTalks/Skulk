@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import paulscode.sound.SoundSystem;
 
 @Mixin(SoundEngine.class)
-public class SkulkMixin_SoundManager {
+public abstract class SkulkMixin_SoundManager {
     @Shadow
     private boolean started;
     @Shadow
@@ -23,6 +23,11 @@ public class SkulkMixin_SoundManager {
     private SoundSystem system;
     @Shadow
     private Sounds music;
+
+    @Inject(method = "start", at = @At(value = "HEAD"))
+    private void Log(CallbackInfo ci) {
+        Skulk.LOGGER.info("SoundManager Mixin Loaded.");
+    }
 
     /**
      * @author korbyntalks

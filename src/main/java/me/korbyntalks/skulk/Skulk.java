@@ -12,6 +12,6 @@ public class Skulk implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        LOGGER.info("Skulk has been Initialized.");
+        LOGGER.info("Lubricating Indev with Skulk..");
     }
 }
