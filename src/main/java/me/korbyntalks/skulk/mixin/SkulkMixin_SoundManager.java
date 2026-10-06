@@ -14,14 +14,6 @@ import paulscode.sound.SoundSystem;
 
 @Mixin(SoundEngine.class)
 public abstract class SkulkMixin_SoundManager {
-    @Shadow
-    private boolean started;
-    @Shadow
-    private GameOptions options;
-    @Shadow
-    private SoundSystem system;
-    @Shadow
-    private Sounds music;
 
     @Inject(method = "start", at = @At(value = "HEAD"))
     private void Log(CallbackInfo ci) {
