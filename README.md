@@ -1,5 +1,5 @@
 # Skulk
-Skulk is a Minecraft Indev 20100223 Mod made in Ornithe. It aims to fix bugs and issues that annoyed me when playing.
+Skulk is a Minecraft Indev 20100223 Mod made with Ornithe. It aims to fix bugs and issues that annoyed me when playing.
 
 Main fixes are:
 * Improved Mouse Behavior
