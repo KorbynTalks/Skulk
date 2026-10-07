@@ -38,27 +38,27 @@ public abstract class SkulkMixin_Mouse {
         this.displayActive = Display.isActive();
         if (this.minecraft.focused) {
             Mouse.lock(this.minecraft);
-            int n3 = 1;
+            int invert = 1;
             if (this.minecraft.options.invertMouseY) {
-                n3 = -1;
+                invert = -1;
             }
-            float n4 = Mouse.x(this.minecraft);
-            float n5 = 0;
+            float mouseX = Mouse.x();
+            float mouseY = Mouse.y();
 
-            float f = n5 * n3;
+            float finalMouseY = mouseY * invert;
             object = this.minecraft.player;
-            float f3 = ((Entity)object).pitch;
-            float f4 = ((Entity)object).yaw;
-            ((Entity)object).yaw = (float)(((Entity)object).yaw + n4 * 0.15);
-            ((Entity)object).pitch = (float)(((Entity)object).pitch - f * 0.15);
+            float playerPitch = ((Entity)object).pitch;
+            float playerYaw = ((Entity)object).yaw;
+            ((Entity)object).yaw = (float)(((Entity)object).yaw + mouseX * 0.15);
+            ((Entity)object).pitch = (float)(((Entity)object).pitch - finalMouseY * 0.15);
             if (((Entity)object).pitch < -90.0f) {
                 ((Entity)object).pitch = -90.0f;
             }
             if (((Entity)object).pitch > 90.0f) {
                 ((Entity)object).pitch = 90.0f;
             }
-            ((Entity)object).lastPitch += ((Entity)object).pitch - f3;
-            ((Entity)object).lastYaw += ((Entity)object).yaw - f4;
+            ((Entity)object).lastPitch += ((Entity)object).pitch - playerPitch;
+            ((Entity)object).lastYaw += ((Entity)object).yaw - playerYaw;
         }
         object = new Window(this.minecraft.width, this.minecraft.height);
         int n = ((Window)object).getWidth();
