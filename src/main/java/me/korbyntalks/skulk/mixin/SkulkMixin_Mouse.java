@@ -37,13 +37,16 @@ public abstract class SkulkMixin_Mouse {
         }
         this.displayActive = Display.isActive();
         if (this.minecraft.focused) {
-            Mouse.lock(this.minecraft);
             int invert = 1;
             if (this.minecraft.options.invertMouseY) {
                 invert = -1;
             }
             float mouseX = Mouse.x();
             float mouseY = Mouse.y();
+
+            if (!org.lwjgl.input.Mouse.isInsideWindow()) {
+                Mouse.lock(this.minecraft);
+            }
 
             float finalMouseY = mouseY * invert;
             object = this.minecraft.player;

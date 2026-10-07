@@ -1,12 +1,6 @@
 package me.korbyntalks.skulk;
 
 import net.minecraft.client.Minecraft;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Cursor;
-import org.lwjgl.opengl.Display;
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class Mouse {
     /**
@@ -45,6 +39,7 @@ public class Mouse {
 
         return finalY;
     }
+
     public static void lock(Minecraft m) {
 
     }
