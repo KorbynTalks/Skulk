@@ -37,13 +37,13 @@ public abstract class SkulkMixin_Mouse {
         }
         this.displayActive = Display.isActive();
         if (this.minecraft.focused) {
-            this.minecraft.mouse.tick();
+            Mouse.lock(this.minecraft);
             int n3 = 1;
             if (this.minecraft.options.invertMouseY) {
                 n3 = -1;
             }
-            float n4 = Mouse.x();
-            float n5 = Mouse.y();
+            float n4 = Mouse.x(this.minecraft);
+            float n5 = 0;
 
             float f = n5 * n3;
             object = this.minecraft.player;
@@ -63,8 +63,8 @@ public abstract class SkulkMixin_Mouse {
         object = new Window(this.minecraft.width, this.minecraft.height);
         int n = ((Window)object).getWidth();
         int n6 = ((Window)object).getHeight();
-        float n7 = Mouse.x() * n / this.minecraft.width;
-        float n8 = n6 - Mouse.y() * n6 / this.minecraft.height - 1;
+        float n7 = Mouse.basicMouseX() * n / this.minecraft.width;
+        float n8 = n6 - Mouse.basicMouseY() * n6 / this.minecraft.height - 1;
         if (this.minecraft.world != null) {
             this.renderWorld(tickDelta);
             this.minecraft.gui.render(tickDelta);
