@@ -1,6 +1,7 @@
 package me.korbyntalks.skulk;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 
 public class Mouse {
     /**
@@ -38,9 +39,5 @@ public class Mouse {
         finalY = (float)org.lwjgl.input.Mouse.getDY();
 
         return finalY;
-    }
-
-    public static void lock(Minecraft m) {
-
     }
 }
