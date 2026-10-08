@@ -1,5 +1,6 @@
 package me.korbyntalks.skulk;
 
+import me.korbyntalks.skulk.config.Config;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -13,5 +14,6 @@ public class Skulk implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("Lubricating Indev with Skulk..");
+        Config.CheckConfig();
     }
 }

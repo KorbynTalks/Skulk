@@ -1,5 +1,6 @@
 package me.korbyntalks.skulk.mixin;
 
+import me.korbyntalks.skulk.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.GameRenderer;
 import me.korbyntalks.skulk.Mouse;
@@ -28,9 +29,7 @@ public abstract class SkulkMixin_Mouse {
      * @author korbyntalks
      * @reason For more precise mouse movement, the variables that store the data have to be floats.
      * The original method uses integers, and it doesn't help that a lot of variables in the
-     * original method are unused, using memory for no reason. There also needs to be an if statement
-     * checking "is the mouse exited out of the window and that the game isn't paused" so we can grab the
-     * cursor if it has not already.
+     * original method are unused, using memory for no reason.
      */
     @Overwrite
     public final void render(float tickDelta) {
@@ -44,8 +43,8 @@ public abstract class SkulkMixin_Mouse {
             if (this.minecraft.options.invertMouseY) {
                 invert = -1;
             }
-            float mouseX = Mouse.x();
-            float mouseY = Mouse.y();
+            float mouseX = Mouse.dX();
+            float mouseY = Mouse.dY();
 
             if(this.minecraft.screen == null && !org.lwjgl.input.Mouse.isGrabbed()) {
                 org.lwjgl.input.Mouse.setGrabbed(true);
@@ -55,8 +54,8 @@ public abstract class SkulkMixin_Mouse {
             object = this.minecraft.player;
             float playerPitch = ((Entity)object).pitch;
             float playerYaw = ((Entity)object).yaw;
-            ((Entity)object).yaw = (float)(((Entity)object).yaw + mouseX * 0.15);
-            ((Entity)object).pitch = (float)(((Entity)object).pitch - finalMouseY * 0.15);
+            ((Entity)object).yaw = (float)(((Entity)object).yaw + mouseX * Config.sensitivity());
+            ((Entity)object).pitch = (float)(((Entity)object).pitch - finalMouseY * Config.sensitivity());
             if (((Entity)object).pitch < -90.0f) {
                 ((Entity)object).pitch = -90.0f;
             }

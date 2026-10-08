@@ -23,20 +23,31 @@ public class Mouse {
 
         return finalY;
     }
-    public static float x() {
+    /**
+     * Easier way to use org.lwjgl.input.Mouse.getDX();
+     * @return float
+     */
+    public static float dX() {
         float finalX = 0;
 
         finalX = (float)org.lwjgl.input.Mouse.getDX();
 
         return finalX;
     }
-    public static float y() {
+    /**
+     * Easier way to use org.lwjgl.input.Mouse.getDY();
+     * @return float
+     */
+    public static float dY() {
         float finalY = 0;
 
         finalY = (float)org.lwjgl.input.Mouse.getDY();
 
         return finalY;
     }
+    /**
+     * Ungrabs the Mouse and sets the Cursors position (x, y).
+     */
     public static void unlock(int x, int y) {
         org.lwjgl.input.Mouse.setGrabbed(false);
         org.lwjgl.input.Mouse.setCursorPosition(x, y);
