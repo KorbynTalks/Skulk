@@ -1,11 +1,8 @@
 package me.korbyntalks.skulk;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-
 public class Mouse {
     /**
-     * Gets the X position of where the mouse is. (Might still get its position when it is out of the Window, haven't tested it.
+     * Gets the X position of where the mouse is. (Might still get its position when it is out of the Window, haven't tested it.)
      * @return float
      */
     public static float basicMouseX() {
@@ -16,7 +13,7 @@ public class Mouse {
         return finalX;
     }
     /**
-     * Gets the Y position of where the mouse is. (Might still get its position when it is out of the Window, haven't tested it.
+     * Gets the Y position of where the mouse is. (Might still get its position when it is out of the Window, haven't tested it.)
      * @return float
      */
     public static float basicMouseY() {

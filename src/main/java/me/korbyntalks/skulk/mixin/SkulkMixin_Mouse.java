@@ -44,8 +44,8 @@ public abstract class SkulkMixin_Mouse {
             float mouseX = Mouse.x();
             float mouseY = Mouse.y();
 
-            if(!org.lwjgl.input.Mouse.isInsideWindow()) {
-                this.minecraft.mouse.tick();
+            if(!org.lwjgl.input.Mouse.isInsideWindow() && !this.minecraft.paused) {
+                org.lwjgl.input.Mouse.setGrabbed(true);
             }
 
             float finalMouseY = mouseY * invert;
