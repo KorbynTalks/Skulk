@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-
 @Mixin(GameRenderer.class)
 public abstract class SkulkMixin_Mouse {
 
@@ -27,7 +26,11 @@ public abstract class SkulkMixin_Mouse {
 
     /**
      * @author korbyntalks
-     * @reason WIP
+     * @reason For more precise mouse movement, the variables that store the data have to be floats.
+     * The original method uses integers, and it doesn't help that a lot of variables in the
+     * original method are unused, using memory for no reason. There also needs to be an if statement
+     * checking "is the mouse exited out of the window and that the game isn't paused" so we can grab the
+     * cursor if it has not already.
      */
     @Overwrite
     public final void render(float tickDelta) {
