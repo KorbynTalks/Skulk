@@ -37,4 +37,7 @@ public class Mouse {
 
         return finalY;
     }
+    public static void unlock() {
+        org.lwjgl.input.Mouse.setGrabbed(false);
+    }
 }
