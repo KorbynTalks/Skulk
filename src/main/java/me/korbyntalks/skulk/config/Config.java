@@ -12,18 +12,6 @@ public class Config {
     static Path confPath = Paths.get(workingDirectory + "/config/Skulk.txt");
     static String configFile;
 
-    public static double sensitivity() {
-        double sens = Double.parseDouble(configFile);
-
-        if(sens > 1.00) {
-            sens = 1.00;
-        } else if(sens < 0.01) {
-            sens = 0.01;
-        }
-
-        return sens;
-    }
-
     public static void CheckConfig() {
         if(Files.notExists(confPath)) {
             Skulk.LOGGER.info("Config file does not exist! Creating.");
@@ -35,6 +23,8 @@ public class Config {
                 writer.write("0.25");
                 writer.close();
 
+                configFile = Files.readAllLines(confPath).toString(); configFile = configFile.replaceAll("[^\\d.]", "");
+
                 return;
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -45,5 +35,17 @@ public class Config {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static double sensitivity() {
+        double sens = Double.parseDouble(configFile);
+
+        if(sens > 1.00) {
+            sens = 1.00;
+        } else if(sens < 0.01) {
+            sens = 0.01;
+        }
+
+        return sens;
     }
 }
