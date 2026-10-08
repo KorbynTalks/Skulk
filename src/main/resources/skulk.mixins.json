@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "SkulkMixin_SoundManager",
-    "SkulkMixin_Mouse"
+    "SkulkMixin_Mouse",
+    "SkulkMixin_Minecraft"
   ],
   "injectors": {
     "defaultRequire": 1
