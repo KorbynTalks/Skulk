@@ -4,8 +4,6 @@ import me.korbyntalks.skulk.Skulk;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
 public class Config {
@@ -17,6 +15,12 @@ public class Config {
     public static double sensitivity() {
         double sens = Double.parseDouble(configFile);
 
+        if(sens > 1.00) {
+            sens = 1.00;
+        } else if(sens < 0.01) {
+            sens = 0.01;
+        }
+
         return sens;
     }
 
@@ -27,6 +31,7 @@ public class Config {
                 Files.createFile(confPath);
                 FileWriter writer = new FileWriter(confPath.toFile());
 
+                writer.write("Sensitivity: ");
                 writer.write("0.25");
                 writer.close();
 
@@ -36,7 +41,7 @@ public class Config {
             }
         }
         try {
-            configFile = Files.readAllLines(confPath).toString(); configFile = configFile.replaceAll("[\\[\\]]","");
+            configFile = Files.readAllLines(confPath).toString(); configFile = configFile.replaceAll("[^\\d.]", "");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
