@@ -54,8 +54,8 @@ public abstract class SkulkMixin_Mouse {
             object = this.minecraft.player;
             float playerPitch = ((Entity)object).pitch;
             float playerYaw = ((Entity)object).yaw;
-            ((Entity)object).yaw = (float)(((Entity)object).yaw + mouseX * Config.sensitivity());
-            ((Entity)object).pitch = (float)(((Entity)object).pitch - finalMouseY * Config.sensitivity());
+            ((Entity)object).yaw = (float)(((Entity)object).yaw + mouseX * 0.25);
+            ((Entity)object).pitch = (float)(((Entity)object).pitch - finalMouseY * 0.25);
             if (((Entity)object).pitch < -90.0f) {
                 ((Entity)object).pitch = -90.0f;
             }

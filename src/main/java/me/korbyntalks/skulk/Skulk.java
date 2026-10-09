@@ -14,6 +14,5 @@ public class Skulk implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("Lubricating Indev with Skulk..");
-        Config.CheckConfig();
     }
 }
