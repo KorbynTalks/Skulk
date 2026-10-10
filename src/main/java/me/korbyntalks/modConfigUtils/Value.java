@@ -4,7 +4,7 @@ package me.korbyntalks.modConfigUtils;
  * a Mod Configuration Value.
  * <p>
  *      Takes a {@code String} and either a {@code double}, {@code float}, {@code int}, or another {@code String}.
- *      a {@code Value} is automatically generated in a Mod's Config File in a format like this:
+ *      a {@code Value} is generated in a Mod's Config File in a format like this:
  * </p>
  *
  * <p>
