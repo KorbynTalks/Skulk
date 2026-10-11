@@ -35,9 +35,30 @@ public class modConfigUtils {
         }
     }
 
-    public static void CreateConfigValue(Value value, String modName) throws IOException {
-        FileWriter writer = new FileWriter(modConfigPath(modName).toFile());
+    /**
+     * Creates a Config Value. If it already exists, it will do nothing, however you should probably check if it is there with {@code CheckConfigValue()} to prevent Log Spam.
+     * @param value
+     * @param modName
+     * @throws IOException if the Config file could not be read for whatever reason. Probably Windows putting permissions on files that don't need to be locked down! (:
+     */
+    public static void CreateConfigValue(String value, String modName) throws IOException {
+        if(!Files.readAllLines(modConfigPath(modName)).toString().contains(value.replaceAll("[\\d.]", ""))) {
+            try (FileWriter writer = new FileWriter(modConfigPath(modName).toFile())) {
+                writer.write(value);
+            }
+        } else {
+            LOGGER.info("Config Value " + value.replaceAll("[\\d.:]", "") + "already exists.");
+        }
+    }
 
-        writer.write(value.toString());
+    /**
+     * Checks if a Config Value exists.
+     * @param value
+     * @param modName
+     * @return {@code true} if it exists, {@code false} if it isn't.
+     * @throws IOException if the Config file could not be read for whatever reason. Probably Windows putting permissions on files that don't need to be locked down! (:
+     */
+    public static boolean CheckConfigValue(String value, String modName) throws IOException {
+        return Files.readAllLines(modConfigPath(modName)).toString().contains(value.replaceAll("[\\d.]", ""));
     }
 }

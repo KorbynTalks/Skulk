@@ -1,12 +1,13 @@
 package me.korbyntalks.skulk.config;
 
-import me.korbyntalks.modConfigUtils.*;
+import me.korbyntalks.modConfigUtils.Value;
+import me.korbyntalks.modConfigUtils.modConfigUtils;
 import me.korbyntalks.skulk.Skulk;
 
 import java.io.IOException;
 
 public class Config {
-    static Value sensitivity = new Value("Sensitivity", 0.25);
+    static String sensitivity = new Value().ConfValue("Sensitivity", 0.25);
     static String modName() {
         return Skulk.MOD_ID;
     }
@@ -14,6 +15,8 @@ public class Config {
     public static void initializeConfig() throws IOException {
         modConfigUtils.initializeModConfig(modName());
 
-        modConfigUtils.CreateConfigValue(sensitivity, modName());
+        if(!modConfigUtils.CheckConfigValue(sensitivity, modName())) {
+            modConfigUtils.CreateConfigValue(sensitivity, modName());
+        }
     }
 }

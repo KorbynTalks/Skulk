@@ -1,31 +1,28 @@
 package me.korbyntalks.modConfigUtils;
 
-/**
- * a Mod Configuration Value.
- * <p>
- *      Takes a {@code String} and either a {@code double}, {@code float}, {@code int}, or another {@code String}.
- *      a {@code Value} is generated in a Mod's Config File in a format like this:
- * </p>
- *
- * <p>
- *     {String}: {value}
- * </p>
- *
- * <p>
- *     <b>{value} represents {@code double}, {@code float}, {@code int}, or {@code String}.</b>
- * </p>
- */
 public final class Value {
-    public Value(String valueName, double baseValue) {
+    public Value() {
 
     }
-    public Value(String valueName, float baseValue) {
 
+    public String ConfValue(String valueName, double baseValue) {
+        String finalValue = valueName + ": " + baseValue;
+
+        return finalValue;
     }
-    public Value(String valueName, int baseValue) {
+    public String ConfValue(String valueName, float baseValue) {
+        String finalValue = valueName + ": " + baseValue;
 
+        return finalValue;
     }
-    public Value(String valueName, String baseValue) {
+    public String ConfValue(String valueName, int baseValue) {
+        String finalValue = valueName + ": " + baseValue;
 
+        return finalValue;
+    }
+    public String ConfValue(String valueName, String baseValue) {
+        String finalValue = valueName + ": " + baseValue;
+
+        return finalValue;
     }
 }
