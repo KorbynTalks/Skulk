@@ -17,10 +17,16 @@ public class Config {
 
         if(!modConfigUtils.ConfigValueExists(sensitivity, modName())) {
             modConfigUtils.CreateConfigValue(sensitivity, modName());
+        } else {
+            sensitivity = modConfigUtils.ReadConfigValue(sensitivity, modName());
         }
+    }
 
-        sensitivity = modConfigUtils.ReadConfigValue(sensitivity, modName());
+    public static double GrabSensitivity() {
+        double finalValue;
 
-        Skulk.LOGGER.info("is " + sensitivity + " the modified one?");
+        finalValue = Double.parseDouble(sensitivity.replaceAll("[^0-9.]", ""));
+
+        return finalValue;
     }
 }
