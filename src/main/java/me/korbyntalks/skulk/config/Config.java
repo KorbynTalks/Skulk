@@ -15,8 +15,12 @@ public class Config {
     public static void initializeConfig() throws IOException {
         modConfigUtils.initializeModConfig(modName());
 
-        if(!modConfigUtils.CheckConfigValue(sensitivity, modName())) {
+        if(!modConfigUtils.ConfigValueExists(sensitivity, modName())) {
             modConfigUtils.CreateConfigValue(sensitivity, modName());
         }
+
+        sensitivity = modConfigUtils.ReadConfigValue(sensitivity, modName());
+
+        Skulk.LOGGER.info("is " + sensitivity + " the modified one?");
     }
 }
