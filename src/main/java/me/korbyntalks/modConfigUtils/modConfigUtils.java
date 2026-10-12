@@ -88,7 +88,7 @@ public class modConfigUtils {
 
             return finalValue.toString();
         }
-        return "dummy value. Something went wrong..";
+        return "dummy value. Something went wrong.."; // What are you, a dummy? *Easter Egg Found!*
     }
 
     /**

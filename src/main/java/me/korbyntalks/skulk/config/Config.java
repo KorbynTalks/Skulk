@@ -25,7 +25,11 @@ public class Config {
     public static double GrabSensitivity() {
         double finalValue;
 
-        finalValue = Double.parseDouble(sensitivity.replaceAll("[^0-9.]", ""));
+        try {
+            finalValue = Double.parseDouble(sensitivity.replaceAll("[^0-9.]", ""));
+        } catch (NumberFormatException e) {
+            finalValue = 0.25;
+        }
 
         if(finalValue > 2.00) {
             finalValue = 2.00;
