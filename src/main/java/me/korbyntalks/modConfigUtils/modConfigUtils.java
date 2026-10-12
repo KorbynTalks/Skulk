@@ -29,6 +29,7 @@ public class modConfigUtils {
     private static void CreateConfig(String modName) {
         if(Files.notExists(modConfigPath(modName))) {
             LOGGER.info("a Config file for a Mod does not exist! Creating.");
+            // Searching for the Config file that doesn't exist. *Easter Egg Found!*
             try {
                 Files.createFile(modConfigPath(modName));
             } catch (IOException e) {
@@ -38,11 +39,11 @@ public class modConfigUtils {
     }
 
     /**
-     * Creates a Config Value. If it already exists, it will do nothing,
+     * Creates a Config value. If it already exists inside the Config file, it will do nothing,
      * however you should probably check if it is there with
      * {@link modConfigUtils#ConfigValueExists(String, String)} to prevent Log Spam.
-     * @param value the value to create.
-     * @param modName your Mod's name.
+     * @param value The value to create.
+     * @param modName Your Mod's name.
      * @throws IOException if the Config file could not be read for whatever reason.
      * Probably Windows putting permissions on files that don't need to be locked down! (:
      */
@@ -59,6 +60,24 @@ public class modConfigUtils {
         }
     }
 
+    /**
+     * Reads a value from the Mod's Config file.
+     * <p>
+     *     This returns the full line from the Config file, so you will have to remove the "name" from the value manually.
+     *     For example, You call {@code ReadConfigValue()} for your value "sensitivity",
+     *     which in the file is set to 0.25. It will bring back this:
+     * </p>
+     * {@code Sensitivity: 0.25}
+     * <p>
+     *     Then you do something like <blockquote>Double.parseDouble(sensitivity.replaceAll("[^0-9.]", ""));</blockquote>
+     *     to get rid of the name from the beginning so you can use the value as an actual Double.
+     * </p>
+     * @param value The value to read.
+     * @param modName Your Mod's name.
+     * @return The full line for the Config value you wanted to read, straight from the file.
+     * @throws IOException if the Config file could not be read for whatever reason.
+     * Probably Windows putting permissions on files that don't need to be locked down! (:
+     */
     public static String ReadConfigValue(String value, String modName) throws IOException {
         Object finalValue;
 
@@ -73,9 +92,9 @@ public class modConfigUtils {
     }
 
     /**
-     * Checks if a Config Value exists.
-     * @param value the value to check.
-     * @param modName your Mod's name.
+     * Checks if a Config value exists inside the Config file.
+     * @param value The value to check.
+     * @param modName Your Mod's name.
      * @return {@code true} if it exists, {@code false} if it isn't.
      * @throws IOException if the Config file could not be read for whatever reason.
      * Probably Windows putting permissions on files that don't need to be locked down! (:

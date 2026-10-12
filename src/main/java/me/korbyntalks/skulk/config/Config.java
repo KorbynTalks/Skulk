@@ -27,6 +27,12 @@ public class Config {
 
         finalValue = Double.parseDouble(sensitivity.replaceAll("[^0-9.]", ""));
 
+        if(finalValue > 2.00) {
+            finalValue = 2.00;
+        } else if(finalValue < 0.01) {
+            finalValue = 0.01;
+        }
+
         return finalValue;
     }
 }

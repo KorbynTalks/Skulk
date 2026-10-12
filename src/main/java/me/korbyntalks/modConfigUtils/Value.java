@@ -20,7 +20,7 @@ public final class Value {
 
         return finalValue;
     }
-    public String ConfValue(String valueName, String baseValue) {
+    public String ConfValue(String valueName, String baseValue) { // ..Why? *Easter Egg Found!*
         String finalValue = valueName + ": " + baseValue;
 
         return finalValue;
