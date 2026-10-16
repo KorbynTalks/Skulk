@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class Config {
     static String sensitivity = new Value().ConfValue("Sensitivity", 0.25);
+    static String improvedMouse = new Value().ConfValue("Improved Mouse Control", true);
+
     static String modName() {
         return Skulk.MOD_ID;
     }
@@ -19,6 +21,12 @@ public class Config {
             modConfigUtils.CreateConfigValue(sensitivity, modName());
         } else {
             sensitivity = modConfigUtils.ReadConfigValue(sensitivity, modName());
+        }
+
+        if(!modConfigUtils.ConfigValueExists(improvedMouse, modName())) {
+            modConfigUtils.CreateConfigValue(improvedMouse, modName());
+        } else {
+            improvedMouse = modConfigUtils.ReadConfigValue(improvedMouse, modName());
         }
     }
 
@@ -36,6 +44,14 @@ public class Config {
         } else if(finalValue < 0.01) {
             finalValue = 0.01;
         }
+
+        return finalValue;
+    }
+
+    public static boolean GrabImprovedMouse() {
+        boolean finalValue;
+
+        finalValue = Boolean.parseBoolean(improvedMouse.substring(23));
 
         return finalValue;
     }

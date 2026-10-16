@@ -3,9 +3,9 @@
   "package": "me.korbyntalks.skulk.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "SkulkMixin_SoundManager",
-    "SkulkMixin_Mouse",
-    "SkulkMixin_Minecraft"
+    "SkulkMixin_GameRenderer",
+    "SkulkMixin_Minecraft",
+    "SkulkMixin_SoundManager"
   ],
   "injectors": {
     "defaultRequire": 1
