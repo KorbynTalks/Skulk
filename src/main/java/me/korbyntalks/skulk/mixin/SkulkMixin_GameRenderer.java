@@ -2,6 +2,8 @@ package me.korbyntalks.skulk.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import me.korbyntalks.skulk.Mouse;
 import me.korbyntalks.skulk.Skulk;
 import me.korbyntalks.skulk.config.Config;
@@ -12,6 +14,7 @@ import net.minecraft.entity.Entity;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,6 +24,18 @@ public abstract class SkulkMixin_GameRenderer {
 
     @Shadow
     private Minecraft minecraft;
+
+    @Unique
+    private int invert() {
+        int finalInt;
+
+        if(minecraft.options.invertMouseY) {
+            finalInt = -1;
+            return finalInt;
+        }
+        finalInt = 1;
+        return finalInt;
+    }
 
     @Inject(
             method = "render",
@@ -51,7 +66,7 @@ public abstract class SkulkMixin_GameRenderer {
     )
     private void betterPitch(Entity instance, float value, Operation<Void> original) {
         if(Config.GrabImprovedMouse() == 1) {
-            value = (float)(value + Mouse.dY() * 1 * Config.GrabSensitivity());
+            value = (float)(value + Mouse.dY() * invert() * Config.GrabSensitivity());
         }
         original.call(instance, value);
     }
