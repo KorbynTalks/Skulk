@@ -20,9 +20,4 @@ public final class Value {
 
         return finalValue;
     }
-    public String ConfValue(String valueName, boolean baseValue) {
-        String finalValue = valueName + ": " + baseValue;
-
-        return finalValue;
-    }
 }
