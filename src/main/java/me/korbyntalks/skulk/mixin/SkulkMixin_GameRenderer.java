@@ -2,8 +2,6 @@ package me.korbyntalks.skulk.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import me.korbyntalks.skulk.Mouse;
 import me.korbyntalks.skulk.Skulk;
 import me.korbyntalks.skulk.config.Config;
@@ -56,9 +54,10 @@ public abstract class SkulkMixin_GameRenderer {
     )
     private void betterYaw(Entity instance, float value, Operation<Void> original) {
         if(Config.GrabImprovedMouse() == 1) {
-            value = (float)(value + Mouse.dX() * Config.GrabSensitivity());
+            instance.yaw = (float)(instance.yaw + 2 * Config.GrabSensitivity());
+        } else {
+            original.call(instance, value);
         }
-        original.call(instance, value);
     }
     @WrapOperation(
             method = "render",
@@ -66,9 +65,10 @@ public abstract class SkulkMixin_GameRenderer {
     )
     private void betterPitch(Entity instance, float value, Operation<Void> original) {
         if(Config.GrabImprovedMouse() == 1) {
-            value = (float)(value + Mouse.dY() * invert() * Config.GrabSensitivity());
+            instance.pitch = (float)(instance.yaw - 2 * invert() * Config.GrabSensitivity());
+        } else {
+            original.call(instance, value);
         }
-        original.call(instance, value);
     }
 
 }
