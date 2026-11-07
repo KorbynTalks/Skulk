@@ -1,74 +1,97 @@
 package me.korbyntalks.skulk.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.korbyntalks.skulk.Mouse;
-import me.korbyntalks.skulk.Skulk;
 import me.korbyntalks.skulk.config.Config;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.mob.player.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 
+import net.minecraft.client.render.Window;
 import net.minecraft.entity.Entity;
-import org.objectweb.asm.Opcodes;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public abstract class SkulkMixin_GameRenderer {
 
     @Shadow
+    private boolean displayActive;
+    @Shadow
     private Minecraft minecraft;
+    @Shadow
+    protected abstract void renderWorld(float tickDelta);
+    @Shadow
+    public abstract void setupGuiState();
 
-    @Unique
-    private int invert() {
-        int finalInt;
-
-        if(minecraft.options.invertMouseY) {
-            finalInt = -1;
-            return finalInt;
+    /**
+     * @author korbyntalks
+     * @reason There are unused stuff in the unmodified method that probably wastes some resources, negligible amounts, but I don't care.
+     * I don't want a block game using resources that it is not using.
+     * There isn't any reason to modify this method except for fixing the weird mouse behaviour and this mod does that already.
+     *
+     * Thread.yield() is also useless so that is removed too.
+     */
+    @Overwrite
+    public final void render(float tickDelta) {
+        if (this.displayActive && !Display.isActive()) {
+            this.minecraft.pauseGame();
         }
-        finalInt = 1;
-        return finalInt;
-    }
+        this.displayActive = Display.isActive();
 
-    @Inject(
-            method = "render",
-            at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getDY()I", shift = At.Shift.AFTER)
-    )
-    private void grabMouse(float par1, CallbackInfo ci) {
-        if(minecraft.screen == null && !org.lwjgl.input.Mouse.isGrabbed()) {
-            org.lwjgl.input.Mouse.setGrabbed(true);
-            if(Config.GrabDebug() == 1) {
-                Skulk.LOGGER.info("Mouse grabbed.");
+        if(Config.GrabImprovedMouse() == 1) {
+            Mouse.mouseMovement(this.minecraft);
+        } else {
+            if(this.minecraft.focused) {
+                this.minecraft.mouse.tick();
+
+                float mouseX = this.minecraft.mouse.x;
+                float mouseY = this.minecraft.mouse.y;
+
+                int invert = 1;
+                if(this.minecraft.options.invertMouseY) {
+                    invert = -1;
+                }
+
+                ClientPlayerEntity player = minecraft.player;
+
+                player.yaw = (float)(player.yaw + mouseX * Config.GrabSensitivity());
+                player.pitch = (float)(player.pitch + mouseY * invert * Config.GrabSensitivity());
+
+                if(player.pitch < -90.0f) {
+                    player.pitch = -90.0f;
+                } else if (player.pitch > 90.0f) {
+                    player.pitch = 90.0f;
+                }
+
             }
         }
-    }
 
-    @WrapOperation(
-            method = "render",
-            at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;yaw:F", opcode = Opcodes.PUTFIELD)
-    )
-    private void betterYaw(Entity instance, float value, Operation<Void> original) {
-        if(Config.GrabImprovedMouse() == 1) {
-            instance.yaw = (float)(instance.yaw + 2 * Config.GrabSensitivity());
+        Window window = new Window(this.minecraft.width, this.minecraft.height);
+        int n = window.getWidth();
+        int n6 = window.getHeight();
+        float n7 = Mouse.basicMouseX() * n / this.minecraft.width;
+        float n8 = n6 - Mouse.basicMouseY() * n6 / this.minecraft.height - 1;
+        if (this.minecraft.world != null) {
+            this.renderWorld(tickDelta);
+            this.minecraft.gui.render(tickDelta);
         } else {
-            original.call(instance, value);
+            GL11.glViewport(0, 0, this.minecraft.width, this.minecraft.height);
+            GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            GL11.glClear(16640);
+            GL11.glMatrixMode(GL11.GL_PROJECTION);
+            GL11.glLoadIdentity();
+            GL11.glMatrixMode(GL11.GL_MODELVIEW);
+            GL11.glLoadIdentity();
+            this.setupGuiState();
         }
-    }
-    @WrapOperation(
-            method = "render",
-            at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;pitch:F", opcode = Opcodes.PUTFIELD)
-    )
-    private void betterPitch(Entity instance, float value, Operation<Void> original) {
-        if(Config.GrabImprovedMouse() == 1) {
-            instance.pitch = (float)(instance.yaw - 2 * invert() * Config.GrabSensitivity());
-        } else {
-            original.call(instance, value);
+        if (this.minecraft.screen != null) {
+            GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+            this.minecraft.screen.render((int)n7, (int)n8, tickDelta);
         }
+        Display.update();
     }
 
 }
