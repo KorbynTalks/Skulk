@@ -7,7 +7,6 @@ import net.minecraft.client.entity.mob.player.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 
 import net.minecraft.client.render.Window;
-import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
