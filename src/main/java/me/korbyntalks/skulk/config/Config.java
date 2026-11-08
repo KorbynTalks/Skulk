@@ -11,6 +11,7 @@ public class Config {
     static String improvedMouse = new Value().ConfValue("Improved Mouse Control", 1);
     static String quitGameButtons = new Value().ConfValue("Quit Game Buttons", 1);
     static String betacraftProxy = new Value().ConfValue("Betacraft Proxy", 1);
+    static String everlastingMusic = new Value().ConfValue("Music Fade Out Fix", 1);
     static String debugMode = new Value().ConfValue("debug", 0);
 
     static String modName() {
@@ -42,6 +43,12 @@ public class Config {
             modConfigUtils.CreateConfigValue(betacraftProxy, modName());
         } else {
             betacraftProxy = modConfigUtils.ReadConfigValue(betacraftProxy, modName());
+        }
+
+        if(!modConfigUtils.ConfigValueExists(everlastingMusic, modName())) {
+            modConfigUtils.CreateConfigValue(everlastingMusic, modName());
+        } else {
+            everlastingMusic = modConfigUtils.ReadConfigValue(everlastingMusic, modName());
         }
 
         if(!modConfigUtils.ConfigValueExists(debugMode, modName())) {
@@ -110,6 +117,24 @@ public class Config {
 
         try {
             finalValue = Integer.parseInt(betacraftProxy.replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            finalValue = 1;
+        }
+
+        if(finalValue > 1) {
+            finalValue = 1;
+        } else if(finalValue < 0) {
+            finalValue = 0;
+        }
+
+        return finalValue;
+    }
+
+    public static int GrabEverlastingMusic() {
+        int finalValue;
+
+        try {
+            finalValue = Integer.parseInt(everlastingMusic.replaceAll("[^0-9]", ""));
         } catch (NumberFormatException e) {
             finalValue = 1;
         }
