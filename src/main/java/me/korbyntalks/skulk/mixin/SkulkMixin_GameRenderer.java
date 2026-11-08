@@ -69,10 +69,10 @@ public abstract class SkulkMixin_GameRenderer {
         }
 
         Window window = new Window(this.minecraft.width, this.minecraft.height);
-        int n = window.getWidth();
-        int n6 = window.getHeight();
-        float n7 = Mouse.basicMouseX() * n / this.minecraft.width;
-        float n8 = n6 - Mouse.basicMouseY() * n6 / this.minecraft.height - 1;
+        int windowWidth = window.getWidth();
+        int windowHeight = window.getHeight();
+        int uiMouseX = (int)Mouse.basicMouseX() * windowWidth / this.minecraft.width;
+        int uiMouseY = windowHeight - (int)Mouse.basicMouseY() * windowHeight / this.minecraft.height - 1;
         if (this.minecraft.world != null) {
             this.renderWorld(tickDelta);
             this.minecraft.gui.render(tickDelta);
@@ -88,7 +88,7 @@ public abstract class SkulkMixin_GameRenderer {
         }
         if (this.minecraft.screen != null) {
             GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-            this.minecraft.screen.render((int)n7, (int)n8, tickDelta);
+            this.minecraft.screen.render(uiMouseX, uiMouseY, tickDelta);
         }
         Display.update();
     }

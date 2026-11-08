@@ -22,5 +22,8 @@ public class Skulk implements ModInitializer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        System.setProperty("http.proxyHost", "betacraft.ee");
+        System.setProperty("http.proxyPort", "11702");
     }
 }
