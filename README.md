@@ -6,7 +6,7 @@ Main stuff are:
 * Improved Mouse Behavior
 * Background Music not fading out after traveling some distance
 * Quit Game buttons on Main Menu and Pause Menu
-* Using Betacraft Proxy to download Resources.
+* Using Betacraft Proxy to download Resources
 * and potentially more to come.
 
 Compatibility with other mods not gaurenteed 👍
