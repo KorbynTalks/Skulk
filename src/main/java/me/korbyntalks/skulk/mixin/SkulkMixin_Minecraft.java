@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Minecraft.class)
+@Mixin(value = Minecraft.class)
 public abstract class SkulkMixin_Minecraft {
     @Shadow
     public int width;
@@ -18,5 +18,10 @@ public abstract class SkulkMixin_Minecraft {
     @Inject(method = "openScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;unlockMouse()V"))
     private void unlockMouse(CallbackInfo ci) {
         Mouse.unlock(this.width / 2, this.height / 2);
+    }
+
+    @Inject(method = "shutdown", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;destroy()V"))
+    private void fullyShutdown(CallbackInfo ci) {
+        System.exit(0);
     }
 }
