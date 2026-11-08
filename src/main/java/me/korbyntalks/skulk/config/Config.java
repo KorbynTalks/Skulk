@@ -9,6 +9,8 @@ import java.io.IOException;
 public class Config {
     static String sensitivity = new Value().ConfValue("Sensitivity", 0.25);
     static String improvedMouse = new Value().ConfValue("Improved Mouse Control", 1);
+    static String quitGameButtons = new Value().ConfValue("Quit Game Buttons", 1);
+    static String betacraftProxy = new Value().ConfValue("Betacraft Proxy", 1);
     static String debugMode = new Value().ConfValue("debug", 0);
 
     static String modName() {
@@ -28,6 +30,18 @@ public class Config {
             modConfigUtils.CreateConfigValue(improvedMouse, modName());
         } else {
             improvedMouse = modConfigUtils.ReadConfigValue(improvedMouse, modName());
+        }
+
+        if(!modConfigUtils.ConfigValueExists(quitGameButtons, modName())) {
+            modConfigUtils.CreateConfigValue(quitGameButtons, modName());
+        } else {
+            quitGameButtons = modConfigUtils.ReadConfigValue(quitGameButtons, modName());
+        }
+
+        if(!modConfigUtils.ConfigValueExists(betacraftProxy, modName())) {
+            modConfigUtils.CreateConfigValue(betacraftProxy, modName());
+        } else {
+            betacraftProxy = modConfigUtils.ReadConfigValue(betacraftProxy, modName());
         }
 
         if(!modConfigUtils.ConfigValueExists(debugMode, modName())) {
@@ -60,6 +74,42 @@ public class Config {
 
         try {
             finalValue = Integer.parseInt(improvedMouse.replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            finalValue = 1;
+        }
+
+        if(finalValue > 1) {
+            finalValue = 1;
+        } else if(finalValue < 0) {
+            finalValue = 0;
+        }
+
+        return finalValue;
+    }
+
+    public static int GrabQuitGameButtons() {
+        int finalValue;
+
+        try {
+            finalValue = Integer.parseInt(quitGameButtons.replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            finalValue = 1;
+        }
+
+        if(finalValue > 1) {
+            finalValue = 1;
+        } else if(finalValue < 0) {
+            finalValue = 0;
+        }
+
+        return finalValue;
+    }
+
+    public static int GrabBetacraftProxy() {
+        int finalValue;
+
+        try {
+            finalValue = Integer.parseInt(betacraftProxy.replaceAll("[^0-9]", ""));
         } catch (NumberFormatException e) {
             finalValue = 1;
         }

@@ -23,7 +23,13 @@ public class Skulk implements ModInitializer {
             throw new RuntimeException(e);
         }
 
-        System.setProperty("http.proxyHost", "betacraft.ee");
-        System.setProperty("http.proxyPort", "11702");
+        if (Config.GrabBetacraftProxy() == 1) {
+            if(Config.GrabDebug() == 1) {
+                Skulk.LOGGER.info("Using Betacraft Proxy.");
+            }
+
+            System.setProperty("http.proxyHost", "betacraft.ee");
+            System.setProperty("http.proxyPort", "11702");
+        }
     }
 }

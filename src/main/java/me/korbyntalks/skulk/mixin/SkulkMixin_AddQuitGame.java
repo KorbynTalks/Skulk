@@ -1,5 +1,6 @@
 package me.korbyntalks.skulk.mixin;
 
+import me.korbyntalks.skulk.config.Config;
 import me.korbyntalks.skulk.widget.AdjustableButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -19,11 +20,11 @@ public final class SkulkMixin_AddQuitGame extends Screen {
     private void addQuitGame(CallbackInfo ci) {
         boolean isPauseScreen = Arrays.stream(titleScreenClassNames).anyMatch(this.getClass().getSimpleName()::equals);
 
-        if(isPauseScreen) {
+        if(isPauseScreen && Config.GrabQuitGameButtons() == 1) {
             this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 + 2, this.height / 4 + 132, 98, 20, "Quit Game"));
             this.buttons.set(3, new AdjustableButtonWidget(0, this.width / 2 - 100, this.height / 4 + 132, 98, 20, "Options..."));
             ((ButtonWidget) this.buttons.get(2)).active = true;
-        } else {
+        } else if(Config.GrabQuitGameButtons() == 1) {
             this.buttons.add(new ButtonWidget(5, this.width / 2 - 100, this.height / 4 + 144, "Quit Game"));
         }
     }

@@ -28,7 +28,7 @@ public class modConfigUtils {
 
     private static void CreateConfig(String modName) {
         if(Files.notExists(modConfigPath(modName))) {
-            LOGGER.info("a Config file for a Mod does not exist! Creating.");
+            LOGGER.info("a Config file for Mod {} does not exist! Creating.", modName);
             // Searching for the Config file that doesn't exist. *Easter Egg Found!*
             try {
                 Files.createFile(modConfigPath(modName));
