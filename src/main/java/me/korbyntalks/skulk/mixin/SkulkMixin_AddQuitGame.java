@@ -14,7 +14,7 @@ public final class SkulkMixin_AddQuitGame extends Screen {
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 3, shift = At.Shift.BY, by = 1))
     private void addQuitGame(CallbackInfo ci) {
         if(this.getClass().getName() == "net.minecraft.client.gui.screen.menu.TitleScreen") {
-            this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 + 3, this.height / 4 + 132, 98, 20, "Quit Game"));
+            this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 + 2, this.height / 4 + 132, 98, 20, "Quit Game"));
             this.buttons.set(3, new AdjustableButtonWidget(0, this.width / 2 - 100, this.height / 4 + 132, 98, 20, "Options..."));
             ((ButtonWidget) this.buttons.get(2)).active = true;
         } else {
