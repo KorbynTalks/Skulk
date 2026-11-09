@@ -3,12 +3,14 @@ package me.korbyntalks.skulk.gui.screen;
 import me.korbyntalks.modConfigUtils.modConfigUtils;
 import me.korbyntalks.skulk.Skulk;
 import me.korbyntalks.skulk.config.Config;
+import me.korbyntalks.skulk.gui.widget.AdjustableButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.menu.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.OptionButtonWidget;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Objects;
 
 public final class SkulkConfigScreen extends Screen {
     private final String title = "Skulk Config";
@@ -51,6 +53,19 @@ public final class SkulkConfigScreen extends Screen {
         this.buttons.add(new OptionButtonWidget(2, this.width / 2 + 5, this.height / 6 + 24, showONorOFFinsteadofNumbers(Config.everlastingMusic)));
         this.buttons.add(new OptionButtonWidget(3, this.width / 2 - 155, this.height / 6 + 48, showONorOFFinsteadofNumbers(Config.quitGameButtons)));
         this.buttons.add(new OptionButtonWidget(4, this.width / 2 + 5, this.height / 6 + 48, showONorOFFinsteadofNumbers(Config.betacraftProxy)));
+        this.buttons.add(new OptionButtonWidget(5, this.width / 2 - 155, this.height / 6 + 72, "Sensitivity: " + Config.GrabSensitivity()));
+        this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 - 155, this.height / 6 + 94, 75, 20, "Increase"));
+        this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 - 79, this.height / 6 + 94, 75, 20, "Decrease"));
+    }
+
+    private void setSensitivityPreset(double finalValue, ButtonWidget button, String presetName) {
+        try {
+            modConfigUtils.WriteConfigValue(Config.sensitivity, finalValue, Skulk.MOD_ID);
+            Config.initializeConfig();
+            button.message = "Sensitivity: " + presetName;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -74,6 +89,63 @@ public final class SkulkConfigScreen extends Screen {
         if(button.id == 4) {
             toggleIntConfig(Config.GrabBetacraftProxy(), Config.betacraftProxy);
             button.message = showONorOFFinsteadofNumbers(Config.betacraftProxy);
+        }
+
+        if(button.id == 5) {
+            double value;
+            double finalValue;
+
+            if(Objects.equals(button.message, "Increase")) {
+                try {
+                    value = Config.GrabSensitivity() + 0.05;
+
+                    DecimalFormat decimalFormat = new DecimalFormat("0.##");
+                    finalValue = Double.parseDouble(decimalFormat.format(value));
+
+                    if(finalValue > 2.00) {
+                        finalValue = 2.00;
+                    } else if(finalValue < 0.04) {
+                        finalValue = 0.05;
+                    }
+
+                    modConfigUtils.WriteConfigValue(Config.sensitivity, finalValue, Skulk.MOD_ID);
+                    Config.initializeConfig();
+                    this.buttons.set(5, new OptionButtonWidget(5, this.width / 2 - 155, this.height / 6 + 72, "Sensitivity: " + Config.GrabSensitivity()));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else if(Objects.equals(button.message, "Decrease")) {
+                try {
+                    value = Config.GrabSensitivity() - 0.05;
+
+                    DecimalFormat decimalFormat = new DecimalFormat("0.##");
+                    finalValue = Double.parseDouble(decimalFormat.format(value));
+
+                    if(finalValue > 2.00) {
+                        finalValue = 2.00;
+                    } else if(finalValue < 0.04) {
+                        finalValue = 0.05;
+                    }
+
+                    modConfigUtils.WriteConfigValue(Config.sensitivity, finalValue, Skulk.MOD_ID);
+                    Config.initializeConfig();
+                    this.buttons.set(5, new OptionButtonWidget(5, this.width / 2 - 155, this.height / 6 + 72, "Sensitivity: " + Config.GrabSensitivity()));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else { // Presets
+                if(Objects.equals(button.message, "Sensitivity: " + Config.GrabSensitivity())) {
+                    setSensitivityPreset(2.00, button, "HYPERSPEED!!!");
+                } else if (Objects.equals(button.message, "Sensitivity: HYPERSPEED!!!")) {
+                    setSensitivityPreset(0.25, button, "Normal");
+                } else if(Objects.equals(button.message, "Sensitivity: Normal")) {
+                    setSensitivityPreset(0.15, button, "Slowed");
+                } else if (Objects.equals(button.message, "Sensitivity: Slowed")) {
+                    setSensitivityPreset(0.01, button, "*yawn*");
+                } else {
+                    setSensitivityPreset(2.00, button, "HYPERSPEED!!!");
+                }
+            }
         }
     }
 

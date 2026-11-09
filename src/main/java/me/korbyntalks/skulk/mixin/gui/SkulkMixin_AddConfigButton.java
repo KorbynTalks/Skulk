@@ -1,4 +1,4 @@
-package me.korbyntalks.skulk.mixin;
+package me.korbyntalks.skulk.mixin.gui;
 
 import me.korbyntalks.skulk.gui.screen.SkulkConfigScreen;
 import net.minecraft.client.gui.screen.Screen;

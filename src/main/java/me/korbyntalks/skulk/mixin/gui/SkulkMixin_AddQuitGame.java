@@ -1,4 +1,4 @@
-package me.korbyntalks.skulk.mixin;
+package me.korbyntalks.skulk.mixin.gui;
 
 import me.korbyntalks.skulk.config.Config;
 import me.korbyntalks.skulk.gui.widget.AdjustableButtonWidget;

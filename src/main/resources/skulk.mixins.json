@@ -3,11 +3,11 @@
   "package": "me.korbyntalks.skulk.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "SkulkMixin_AddConfigButton",
-    "SkulkMixin_AddQuitGame",
     "SkulkMixin_GameRenderer",
     "SkulkMixin_Minecraft",
-    "SkulkMixin_SoundManager"
+    "SkulkMixin_SoundManager",
+    "gui.SkulkMixin_AddConfigButton",
+    "gui.SkulkMixin_AddQuitGame"
   ],
   "injectors": {
     "defaultRequire": 1
