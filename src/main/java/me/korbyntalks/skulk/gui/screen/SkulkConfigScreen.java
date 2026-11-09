@@ -15,6 +15,7 @@ import java.util.Objects;
 public final class SkulkConfigScreen extends Screen {
     private final String title = "Skulk Config";
     private Screen parent;
+    private int preset = 1;
 
     public SkulkConfigScreen(Screen parent) {
         this.parent = parent;
@@ -54,8 +55,8 @@ public final class SkulkConfigScreen extends Screen {
         this.buttons.add(new OptionButtonWidget(3, this.width / 2 - 155, this.height / 6 + 48, showONorOFFinsteadofNumbers(Config.quitGameButtons)));
         this.buttons.add(new OptionButtonWidget(4, this.width / 2 + 5, this.height / 6 + 48, showONorOFFinsteadofNumbers(Config.betacraftProxy)));
         this.buttons.add(new OptionButtonWidget(5, this.width / 2 - 155, this.height / 6 + 72, "Sensitivity: " + Config.GrabSensitivity()));
-        this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 - 155, this.height / 6 + 94, 75, 20, "Increase"));
-        this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 - 79, this.height / 6 + 94, 75, 20, "Decrease"));
+        this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 - 155, this.height / 6 + 94, 75, 20, "Increase +.05"));
+        this.buttons.add(new AdjustableButtonWidget(5, this.width / 2 - 79, this.height / 6 + 94, 75, 20, "Decrease -.05"));
     }
 
     private void setSensitivityPreset(double finalValue, ButtonWidget button, String presetName) {
@@ -95,7 +96,7 @@ public final class SkulkConfigScreen extends Screen {
             double value;
             double finalValue;
 
-            if(Objects.equals(button.message, "Increase")) {
+            if(Objects.equals(button.message, "Increase +.05")) {
                 try {
                     value = Config.GrabSensitivity() + 0.05;
 
@@ -114,7 +115,7 @@ public final class SkulkConfigScreen extends Screen {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            } else if(Objects.equals(button.message, "Decrease")) {
+            } else if(Objects.equals(button.message, "Decrease -.05")) {
                 try {
                     value = Config.GrabSensitivity() - 0.05;
 
@@ -134,16 +135,30 @@ public final class SkulkConfigScreen extends Screen {
                     throw new RuntimeException(e);
                 }
             } else { // Presets
-                if(Objects.equals(button.message, "Sensitivity: " + Config.GrabSensitivity())) {
-                    setSensitivityPreset(2.00, button, "HYPERSPEED!!!");
-                } else if (Objects.equals(button.message, "Sensitivity: HYPERSPEED!!!")) {
-                    setSensitivityPreset(0.25, button, "Normal");
-                } else if(Objects.equals(button.message, "Sensitivity: Normal")) {
-                    setSensitivityPreset(0.15, button, "Slowed");
-                } else if (Objects.equals(button.message, "Sensitivity: Slowed")) {
-                    setSensitivityPreset(0.01, button, "*yawn*");
-                } else {
-                    setSensitivityPreset(2.00, button, "HYPERSPEED!!!");
+                switch (preset) {
+                    case 1:
+                        preset++;
+                        setSensitivityPreset(2.00, button, "HYPERSPEED!!!");
+                        break;
+
+                    case 2:
+                        preset++;
+                        setSensitivityPreset(0.25, button, "Normal");
+                        break;
+
+                    case 3:
+                        preset++;
+                        setSensitivityPreset(0.15, button, "Slowed");
+                        break;
+
+                    case 4:
+                        preset++;
+                        setSensitivityPreset(0.01, button, "*yawn*");
+                        break;
+
+                    default:
+                        preset = 2;
+                        setSensitivityPreset(2.00, button, "HYPERSPEED!!!");
                 }
             }
         }
