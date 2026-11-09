@@ -1,4 +1,4 @@
-package me.korbyntalks.skulk.widget;
+package me.korbyntalks.skulk.gui.widget;
 
 import net.minecraft.client.gui.widget.ButtonWidget;
 

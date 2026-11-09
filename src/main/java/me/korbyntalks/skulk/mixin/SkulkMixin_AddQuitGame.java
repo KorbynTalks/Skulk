@@ -1,7 +1,7 @@
 package me.korbyntalks.skulk.mixin;
 
 import me.korbyntalks.skulk.config.Config;
-import me.korbyntalks.skulk.widget.AdjustableButtonWidget;
+import me.korbyntalks.skulk.gui.widget.AdjustableButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import org.spongepowered.asm.mixin.Mixin;

@@ -7,12 +7,12 @@ import me.korbyntalks.skulk.Skulk;
 import java.io.IOException;
 
 public class Config {
-    static String sensitivity = new Value().ConfValue("Sensitivity", 0.25);
-    static String improvedMouse = new Value().ConfValue("Improved Mouse Control", 1);
-    static String quitGameButtons = new Value().ConfValue("Quit Game Buttons", 1);
-    static String betacraftProxy = new Value().ConfValue("Betacraft Proxy", 1);
-    static String everlastingMusic = new Value().ConfValue("Music Fade Out Fix", 1);
-    static String debugMode = new Value().ConfValue("debug", 0);
+    public static String sensitivity = new Value().ConfValue("Sensitivity", 0.25);
+    public static String improvedMouse = new Value().ConfValue("Improved Mouse Control", 1);
+    public static String quitGameButtons = new Value().ConfValue("Quit Game Buttons", 1);
+    public static String betacraftProxy = new Value().ConfValue("Betacraft Proxy", 1);
+    public static String everlastingMusic = new Value().ConfValue("Music Fade Out Fix", 1);
+    public static String debugMode = new Value().ConfValue("debug", 0);
 
     static String modName() {
         return Skulk.MOD_ID;

@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
+import me.korbyntalks.skulk.Skulk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +45,8 @@ public class modConfigUtils {
      * however you should probably check if it is there with
      * {@link modConfigUtils#ConfigValueExists(String, String)} to prevent Log Spam.
      * @param value The value to create.
-     * @param modName Your Mod's name.
+     * @param modName Your Mod's ID.
      * @throws IOException if the Config file could not be read for whatever reason.
-     * Probably Windows putting permissions on files that don't need to be locked down! (:
      */
     public static void CreateConfigValue(String value, String modName) throws IOException {
         if(!Files.readAllLines(modConfigPath(modName)).toString().contains(value.replaceAll("[\\d.]", ""))) {
@@ -73,10 +74,9 @@ public class modConfigUtils {
      *     to get rid of the name from the beginning so you can use the value as an actual Double.
      * </p>
      * @param value The value to read.
-     * @param modName Your Mod's name.
+     * @param modName Your Mod's ID.
      * @return The full line for the Config value you wanted to read, straight from the file.
      * @throws IOException if the Config file could not be read for whatever reason.
-     * Probably Windows putting permissions on files that don't need to be locked down! (:
      */
     public static String ReadConfigValue(String value, String modName) throws IOException {
         Object finalValue;
@@ -84,7 +84,7 @@ public class modConfigUtils {
         Optional<String> foundValue = Files.lines(modConfigPath(modName))
                 .filter(line -> line.contains(value.replaceAll("[\\d.]", ""))).findFirst();
         if(foundValue.isPresent()) {
-            finalValue = foundValue.get().replace(":", "");
+            finalValue = foundValue.get();
 
             return finalValue.toString();
         }
@@ -92,12 +92,48 @@ public class modConfigUtils {
     }
 
     /**
+     * Sets a new value to the existing value you wish to change.
+     * <p>
+     *     This sets a new value to the Config value you specified.
+     *     For example, you want to change the value "Improved Mouse Control" from what it was before (lets say it was 1) to 0, and
+     *     you have your value stored in a variable called "improvedMouse".
+     * </p>
+     * <p>
+     *     You can do so by doing something like this:
+     * </p>
+     * {@code WriteConfigValue(improvedMouse, 0, YourMod.MOD_ID)}
+     * <div></div>
+     * This is useful for in-game Config screens.
+     * <p>
+     *     Please note,
+     *     you may have to run {@link modConfigUtils#ReadConfigValue(String, String)} for your value again to see the changes.
+     * </p>
+     * @param value The value you want changed.
+     * @param newValue The value you wish to set.
+     * @param modName Your Mod's ID.
+     * @throws IOException if the Config file could not be read for whatever reason.
+     */
+    public static void WriteConfigValue(String value, Object newValue, String modName) throws IOException {
+        Optional<String> foundValue = Files.lines(modConfigPath(modName))
+                .filter(line -> line.contains(value.replaceAll("[\\d.]", ""))).findFirst();
+        if(foundValue.isPresent()) {
+            LOGGER.info("Writing new value {} to {}", newValue, value);
+            List<String> lines = Files.readAllLines(modConfigPath(modName));
+
+            String finalValue;
+            finalValue = value.replaceAll("[^a-zA-Z ]", "").trim() + ": " + newValue;
+
+            lines.set(lines.indexOf(value), finalValue);
+            Files.write(modConfigPath(modName), lines);
+        }
+    }
+
+    /**
      * Checks if a Config value exists inside the Config file.
      * @param value The value to check.
-     * @param modName Your Mod's name.
+     * @param modName Your Mod's ID.
      * @return {@code true} if it exists, {@code false} if it isn't.
      * @throws IOException if the Config file could not be read for whatever reason.
-     * Probably Windows putting permissions on files that don't need to be locked down! (:
      */
     public static boolean ConfigValueExists(String value, String modName) throws IOException {
         return Files.readAllLines(modConfigPath(modName)).toString().contains(value.replaceAll("[\\d.]", ""));
