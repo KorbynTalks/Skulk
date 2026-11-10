@@ -143,15 +143,20 @@ public final class SkulkConfigScreen extends Screen {
 
                     case 2:
                         preset++;
-                        SetSensitivityPreset(0.25, button, "Normal");
+                        SetSensitivityPreset(1.00, button, "Fast");
                         break;
 
                     case 3:
                         preset++;
-                        SetSensitivityPreset(0.15, button, "Slowed");
+                        SetSensitivityPreset(0.25, button, "Normal");
                         break;
 
                     case 4:
+                        preset++;
+                        SetSensitivityPreset(0.15, button, "Slowed");
+                        break;
+
+                    case 5:
                         preset++;
                         SetSensitivityPreset(0.01, button, "*yawn*");
                         break;
