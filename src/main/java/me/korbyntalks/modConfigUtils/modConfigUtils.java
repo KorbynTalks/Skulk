@@ -135,6 +135,7 @@ public class modConfigUtils {
      * @return {@code true} if it exists, {@code false} if it isn't.
      * @throws IOException if the Config file could not be read for whatever reason.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean ConfigValueExists(String value, String modName) throws IOException {
         return Files.readAllLines(modConfigPath(modName)).toString().contains(value.replaceAll("[\\d.]", ""));
     }

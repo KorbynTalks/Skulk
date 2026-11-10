@@ -14,6 +14,7 @@ public class Config {
     public static String everlastingMusic = new Value().ConfValue("Music Fade Out Fix", 1);
     public static String debugMode = new Value().ConfValue("debug", 0);
 
+    @SuppressWarnings("SameReturnValue")
     static String modName() {
         return Skulk.MOD_ID;
     }

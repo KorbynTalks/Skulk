@@ -27,7 +27,7 @@ public abstract class SkulkMixin_GameRenderer {
     public abstract void setupGuiState();
 
     @Unique
-    Thread mouseThread = new Thread(() -> {
+    final Thread mouseThread = new Thread(() -> {
         while(true) {
             if (!minecraft.paused && minecraft.screen == null) {
                 float mouseX = Mouse.dX();

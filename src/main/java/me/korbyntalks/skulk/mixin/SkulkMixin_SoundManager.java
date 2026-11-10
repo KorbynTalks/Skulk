@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(SoundEngine.class)
 public abstract class SkulkMixin_SoundManager {
 
+    @SuppressWarnings("ParameterCanBeLocal")
     @ModifyArg(method = "playMusic", at = @At(value = "INVOKE", target = "Lpaulscode/sound/SoundSystem;newStreamingSource(ZLjava/lang/String;Ljava/net/URL;Ljava/lang/String;ZFFFIF)V"), index = 9)
     public final float EverlastingMusic(float f) {
         if (Config.GrabEverlastingMusic() == 1) {
