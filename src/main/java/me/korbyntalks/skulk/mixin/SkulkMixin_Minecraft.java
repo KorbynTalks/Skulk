@@ -2,6 +2,7 @@ package me.korbyntalks.skulk.mixin;
 
 import me.korbyntalks.skulk.Mouse;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,8 +21,9 @@ public abstract class SkulkMixin_Minecraft {
         Mouse.unlock(this.width / 2, this.height / 2);
     }
 
-    @Inject(method = "shutdown", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;destroy()V"))
+    @Inject(method = "shutdown", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Keyboard;destroy()V"))
     private void fullyShutdown(CallbackInfo ci) {
+        Display.destroy();
         System.exit(0);
     }
 }
