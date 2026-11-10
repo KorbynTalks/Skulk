@@ -19,7 +19,8 @@ public abstract class SkulkMixin_Minecraft {
 
     @Redirect(method = "lockMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;lock()V"))
     private void lockMouse(net.minecraft.client.Mouse instance) {
-        Mouse.unlock(width / 2, height / 2);
+        org.lwjgl.input.Mouse.setCursorPosition(width / 2, height / 2);
+        org.lwjgl.input.Mouse.setGrabbed(true);
     }
 
     @Inject(method = "shutdown", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Keyboard;destroy()V"))
