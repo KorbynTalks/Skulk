@@ -14,9 +14,6 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-import static me.korbyntalks.skulk.Mouse.dX;
-import static me.korbyntalks.skulk.Mouse.dY;
-
 @Mixin(GameRenderer.class)
 public abstract class SkulkMixin_GameRenderer {
 
@@ -33,8 +30,8 @@ public abstract class SkulkMixin_GameRenderer {
     Thread mouseThread = new Thread(() -> {
         while(true) {
             if (!minecraft.paused && minecraft.screen == null) {
-                float mouseX = dX();
-                float mouseY = dY();
+                float mouseX = Mouse.dX();
+                float mouseY = Mouse.dY();
 
                 int invert = 1;
                 if(minecraft.options.invertMouseY) {

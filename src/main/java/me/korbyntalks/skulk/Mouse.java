@@ -20,14 +20,14 @@ public class Mouse {
      * @return float
      */
     public static float dX() {
-        return (float)org.lwjgl.input.Mouse.getDX();
+        return org.lwjgl.input.Mouse.getDX();
     }
     /**
      * Easier way to use org.lwjgl.input.Mouse.getDY();
      * @return float
      */
     public static float dY() {
-        return (float)org.lwjgl.input.Mouse.getDY();
+        return org.lwjgl.input.Mouse.getDY();
     }
     /**
      * Ungrabs the Mouse and sets the Cursors position (x, y).

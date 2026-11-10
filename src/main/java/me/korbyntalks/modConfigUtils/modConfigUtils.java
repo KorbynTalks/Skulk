@@ -14,6 +14,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("resource")
 public class modConfigUtils {
 
     private static final String loggerID = "Mod Config Utils";
@@ -56,7 +57,7 @@ public class modConfigUtils {
                 out.flush();
             }
         } else {
-            LOGGER.info("Config Value " + value.replaceAll("[\\d.:]", "") + "already exists.");
+            LOGGER.info("Config Value {}already exists.", value.replaceAll("[\\d.:]", ""));
         }
     }
 
