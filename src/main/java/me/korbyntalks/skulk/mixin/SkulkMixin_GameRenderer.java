@@ -12,6 +12,10 @@ import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+
+import static me.korbyntalks.skulk.Mouse.dX;
+import static me.korbyntalks.skulk.Mouse.dY;
 
 @Mixin(GameRenderer.class)
 public abstract class SkulkMixin_GameRenderer {
@@ -24,6 +28,39 @@ public abstract class SkulkMixin_GameRenderer {
     protected abstract void renderWorld(float tickDelta);
     @Shadow
     public abstract void setupGuiState();
+
+    @Unique
+    Thread mouseThread = new Thread(() -> {
+        while(true) {
+            if (!minecraft.paused && minecraft.screen == null) {
+                float mouseX = dX();
+                float mouseY = dY();
+
+                int invert = 1;
+                if(minecraft.options.invertMouseY) {
+                    invert = -1;
+                }
+
+                ClientPlayerEntity player = minecraft.player;
+
+                if(!org.lwjgl.input.Mouse.isGrabbed()) {
+                    org.lwjgl.input.Mouse.setCursorPosition(minecraft.width / 2, minecraft.height / 2);
+                    org.lwjgl.input.Mouse.setGrabbed(true);
+                }
+
+                player.yaw = (float)(player.yaw + mouseX * Config.GrabSensitivity());
+                player.pitch = (float)(player.pitch - mouseY * invert * Config.GrabSensitivity());
+
+                if(player.pitch < -90.0f) {
+                    player.pitch = -90.0f;
+                } else if (player.pitch > 90.0f) {
+                    player.pitch = 90.0f;
+                }
+            } else if(org.lwjgl.input.Mouse.isGrabbed()) {
+                Mouse.unlock(minecraft.width / 2, minecraft.height / 2);
+            }
+        }
+    });
 
     /**
      * @author korbyntalks
@@ -41,7 +78,9 @@ public abstract class SkulkMixin_GameRenderer {
         this.displayActive = Display.isActive();
 
         if(Config.GrabImprovedMouse() == 1) {
-            Mouse.mouseMovement(this.minecraft);
+            if(!minecraft.paused && minecraft.player != null && !mouseThread.isAlive()) {
+                mouseThread.start();
+            }
         } else {
             if(this.minecraft.focused) {
                 this.minecraft.mouse.tick();

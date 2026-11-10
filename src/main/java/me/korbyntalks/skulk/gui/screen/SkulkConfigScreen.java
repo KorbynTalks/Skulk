@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
+@SuppressWarnings("unchecked")
 public final class SkulkConfigScreen extends Screen {
     private final Screen parent;
     private int preset = 1;

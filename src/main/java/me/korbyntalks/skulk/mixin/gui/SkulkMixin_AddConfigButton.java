@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = OptionsScreen.class)
 public class SkulkMixin_AddConfigButton extends Screen {
+    @SuppressWarnings("unchecked")
     @Inject(method = "init", at = @At(value = "HEAD"))
     private void AddButton(CallbackInfo ci) {
         this.buttons.clear();
