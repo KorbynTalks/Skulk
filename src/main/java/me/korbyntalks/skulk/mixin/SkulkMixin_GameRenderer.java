@@ -27,34 +27,36 @@ public abstract class SkulkMixin_GameRenderer {
     public abstract void setupGuiState();
 
     @Unique
-    final Thread mouseThread = new Thread(() -> {
+    protected final Thread mouseThread = new Thread(() -> {
+        ClientPlayerEntity player = minecraft.player;
+
         while(true) {
-            if (!minecraft.paused && minecraft.screen == null) {
-                float mouseX = Mouse.dX();
-                float mouseY = Mouse.dY();
+            float mouseX = Mouse.dX();
+            float mouseY = Mouse.dY();
 
-                int invert = 1;
-                if(minecraft.options.invertMouseY) {
-                    invert = -1;
+            int invert = 1;
+            if(minecraft.options.invertMouseY) {
+                invert = -1;
+            }
+            if (Config.GrabImprovedMouse() == 1) {
+                if (minecraft.screen == null) {
+                    if(!org.lwjgl.input.Mouse.isGrabbed()) {
+                        org.lwjgl.input.Mouse.setGrabbed(true);
+                    }
+
+                    player.yaw = (float)(player.yaw + mouseX * Config.GrabSensitivity());
+                    player.pitch = (float)(player.pitch - mouseY * invert * Config.GrabSensitivity());
+                } else {
+                    if(org.lwjgl.input.Mouse.isGrabbed()) {
+                        org.lwjgl.input.Mouse.setGrabbed(false);
+                    }
                 }
-
-                ClientPlayerEntity player = minecraft.player;
-
-                if(!org.lwjgl.input.Mouse.isGrabbed()) {
-                    org.lwjgl.input.Mouse.setCursorPosition(minecraft.width / 2, minecraft.height / 2);
-                    org.lwjgl.input.Mouse.setGrabbed(true);
-                }
-
-                player.yaw = (float)(player.yaw + mouseX * Config.GrabSensitivity());
-                player.pitch = (float)(player.pitch - mouseY * invert * Config.GrabSensitivity());
 
                 if(player.pitch < -90.0f) {
                     player.pitch = -90.0f;
                 } else if (player.pitch > 90.0f) {
                     player.pitch = 90.0f;
                 }
-            } else if(org.lwjgl.input.Mouse.isGrabbed()) {
-                Mouse.unlock(minecraft.width / 2, minecraft.height / 2);
             }
         }
     });
