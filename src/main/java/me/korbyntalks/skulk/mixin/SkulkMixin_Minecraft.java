@@ -1,6 +1,5 @@
 package me.korbyntalks.skulk.mixin;
 
-import me.korbyntalks.skulk.Mouse;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;

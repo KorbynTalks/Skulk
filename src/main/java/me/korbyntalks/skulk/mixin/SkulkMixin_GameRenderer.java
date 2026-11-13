@@ -1,6 +1,7 @@
 package me.korbyntalks.skulk.mixin;
 
 import me.korbyntalks.skulk.Mouse;
+import me.korbyntalks.skulk.Skulk;
 import me.korbyntalks.skulk.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.mob.player.ClientPlayerEntity;
@@ -16,46 +17,54 @@ import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(GameRenderer.class)
 public abstract class SkulkMixin_GameRenderer {
-
-    @Shadow
-    private boolean displayActive;
     @Shadow
     private Minecraft minecraft;
     @Shadow
     protected abstract void renderWorld(float tickDelta);
     @Shadow
     public abstract void setupGuiState();
+    @Unique
+    private int invert() {
+        if(minecraft.options.invertMouseY) {
+            return -1;
+        }
+        return 1;
+    }
+    @Unique
+    private ClientPlayerEntity player;
 
     @Unique
     protected final Thread mouseThread = new Thread(() -> {
-        ClientPlayerEntity player = minecraft.player;
+        Thread.currentThread().setName("mouseThread");
 
-        while(true) {
+        if (Config.GrabDebug() == 1) {
+            Skulk.LOGGER.info("{} started.", Thread.currentThread().getName());
+        }
+
+        while(!Thread.currentThread().isInterrupted()) {
             float mouseX = Mouse.dX();
             float mouseY = Mouse.dY();
 
-            int invert = 1;
-            if(minecraft.options.invertMouseY) {
-                invert = -1;
-            }
             if (Config.GrabImprovedMouse() == 1) {
                 if (minecraft.screen == null) {
+                    player = minecraft.player;
+
                     if(!org.lwjgl.input.Mouse.isGrabbed()) {
                         org.lwjgl.input.Mouse.setGrabbed(true);
                     }
 
                     player.yaw = (float)(player.yaw + mouseX * Config.GrabSensitivity());
-                    player.pitch = (float)(player.pitch - mouseY * invert * Config.GrabSensitivity());
+                    player.pitch = (float)(player.pitch - mouseY * invert() * Config.GrabSensitivity());
+
+                    if(player.pitch < -90.0f) {
+                        player.pitch = -90.0f;
+                    } else if (player.pitch > 90.0f) {
+                        player.pitch = 90.0f;
+                    }
                 } else {
                     if(org.lwjgl.input.Mouse.isGrabbed()) {
                         org.lwjgl.input.Mouse.setGrabbed(false);
                     }
-                }
-
-                if(player.pitch < -90.0f) {
-                    player.pitch = -90.0f;
-                } else if (player.pitch > 90.0f) {
-                    player.pitch = 90.0f;
                 }
             }
         }
@@ -71,38 +80,35 @@ public abstract class SkulkMixin_GameRenderer {
      */
     @Overwrite
     public final void render(float tickDelta) {
-        if (this.displayActive && !Display.isActive()) {
+        if (!Display.isActive()) {
             this.minecraft.pauseGame();
         }
-        this.displayActive = Display.isActive();
 
         if(Config.GrabImprovedMouse() == 1) {
-            if(!minecraft.paused && minecraft.player != null && !mouseThread.isAlive()) {
+            if(!mouseThread.isAlive()) {
                 mouseThread.start();
             }
         } else {
-            if(this.minecraft.focused) {
+            if(this.minecraft.screen == null) {
                 this.minecraft.mouse.tick();
 
                 float mouseX = this.minecraft.mouse.x;
                 float mouseY = this.minecraft.mouse.y;
 
-                int invert = 1;
-                if(this.minecraft.options.invertMouseY) {
-                    invert = -1;
-                }
-
-                ClientPlayerEntity player = minecraft.player;
+                player = minecraft.player;
 
                 player.yaw = (float)(player.yaw + mouseX * Config.GrabSensitivity());
-                player.pitch = (float)(player.pitch + mouseY * invert * Config.GrabSensitivity());
+                player.pitch = (float)(player.pitch + mouseY * invert() * Config.GrabSensitivity());
 
                 if(player.pitch < -90.0f) {
                     player.pitch = -90.0f;
                 } else if (player.pitch > 90.0f) {
                     player.pitch = 90.0f;
                 }
-
+            } else {
+                if(org.lwjgl.input.Mouse.isGrabbed()) {
+                    org.lwjgl.input.Mouse.setGrabbed(false);
+                }
             }
         }
 
