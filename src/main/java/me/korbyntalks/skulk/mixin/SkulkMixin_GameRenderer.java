@@ -46,11 +46,17 @@ public abstract class SkulkMixin_GameRenderer {
             float mouseY = Mouse.dY();
 
             if (Config.GrabImprovedMouse() == 1) {
-                if (minecraft.screen == null) {
-                    player = minecraft.player;
+                if(minecraft.world == null) {
+                    player = null;
+                }
 
+                if (minecraft.screen == null) {
                     if(!org.lwjgl.input.Mouse.isGrabbed()) {
                         org.lwjgl.input.Mouse.setGrabbed(true);
+                    }
+
+                    if(player == null) {
+                        player = minecraft.player;
                     }
 
                     player.yaw = (float)(player.yaw + mouseX * Config.GrabSensitivity());
