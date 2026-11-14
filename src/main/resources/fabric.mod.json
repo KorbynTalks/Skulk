@@ -3,11 +3,7 @@
   "id": "skulk",
   "version": "${version}",
   "name": "Skulk",
-  "description": [
-    "a Mod for Indev 20100223 that fixes all kinds of bugs and annoyances, ",
-    "and add small things to improve your Indev experience. ",
-    "All changes are completely configurable."
-  ],
+  "description": "a Mod for Indev 20100223 that fixes all kinds of bugs and annoyances, and add small things to improve your Indev experience. All changes are completely configurable.",
   "authors": [
     "Creator and Maintainer",
     {
