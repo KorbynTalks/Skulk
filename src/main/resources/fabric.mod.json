@@ -3,9 +3,25 @@
   "id": "skulk",
   "version": "${version}",
   "name": "Skulk",
-  "description": "An All-in-one Mod for Indev 20100223 that fixes all kinds of bugs and annoyances.",
+  "description": [
+    "a Mod for Indev 20100223 that fixes all kinds of bugs and annoyances, ",
+    "and add small things to improve your Indev experience. ",
+    "All changes are completely configurable."
+  ],
   "authors": [
-    "KorbynTalks"
+    "Creator and Maintainer",
+    {
+      "name": "KorbynTalks",
+      "contact": {
+        "homepage": "https://korbyntalks.github.io/"
+      }
+    }
+  ],
+  "contributors": [
+    "Playtester",
+    {
+      "name": "ChepsGames"
+    }
   ],
   "contact": {
     "homepage": "https://korbyntalks.github.io/",
@@ -19,7 +35,8 @@
   "mixins": [
     "skulk.mixins.json"
   ],
-  "license": "None.",
+  "license": "Kicense Version 1",
+  "icon": "assets/skulk/Skulk.png",
   "environment": "*",
   "depends": {
     "fabricloader": ">=0.17.3",
